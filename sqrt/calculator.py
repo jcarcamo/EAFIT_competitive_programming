@@ -1,10 +1,9 @@
 #!/usr/local/bin/python3
-""" 
+"""
 Contest Problem 3
-Protecting the crops.
+SQRT
 """
 import sys
-import math
 
 class Calculator(object):
 
@@ -20,6 +19,7 @@ class Calculator(object):
     def sqrt(self, y):
         # 1. divide number in pairs
         pairs = self.divideIntoPairs(list(y.rstrip()))
+
         # 2. find the smallest integer that squared is the leftmost digit
         pair = int(pairs.pop())
         n = 0
@@ -27,20 +27,21 @@ class Calculator(object):
             n += 1
         # 3. add that number to our result
         result = str(n)
-        doubleResult = int(result)*2
+        doubleResult = int(result)**2
         substraction = pair - doubleResult
-        
-        # 4. The loop starts here. 
+
+        # 4. The loop starts here.
         # Multiply result by 2 and substract it from the prev number
         while len(pairs) != 0:
             pair = pairs.pop()
             temp = int(str(substraction) + pair)
+
             # 5. Find the int that satisfies concat(result*2,x)*x < temp
             x = 0
             doubleResult = str(int(result)*2)
-            while int(doubleResult + str(x+1))*(x+1) < temp:
+            while int(doubleResult + str(x+1))*(x+1) <= temp:
                 x += 1
-            
+
             toSubstract = int(doubleResult + str(x))*(x)
             result += str(x)
             substraction = temp - toSubstract
@@ -48,15 +49,12 @@ class Calculator(object):
         return int(result)
 
     def solveFromInput(self, testCases):
+        empty = sys.stdin.readline()
         for i in range(testCases):
-            empty = sys.stdin.readline()
             y = sys.stdin.readline()
             result = self.sqrt(y)
-            mathOp = int(math.sqrt(int(y)))
-            if result == mathOp:
-                print('\n',result)
-            else:
-                print('\n', "ERROR -- math result:", mathOp, "our result:", result)
+            print(result)
+            print()
 
 if __name__ == "__main__":
     testCases = int(sys.stdin.readline())
